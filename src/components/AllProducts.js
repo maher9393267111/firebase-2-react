@@ -46,6 +46,31 @@ const AllProducts = () => {
 
 
 
+// update------
+
+
+const upatePro = (key) => {
+    console.log("Delete", key)
+    return new Promise(async (resolve, reject) => {
+
+        try {
+            await updateDoc(doc(db, "products", key), {
+              ...products[key],
+                product_name: "update",
+                product_price: 366,
+            })
+            resolve()
+        } catch (error) {
+            console.log(error)
+            reject()
+        }
+    })
+}
+
+
+
+
+
 
 
 
@@ -58,7 +83,8 @@ const AllProducts = () => {
       <div className=" flex gap-12 mt-12 ml-12">
         {products.map((product) => (
           <div
-            onClick={() => deletePro(product.id)}
+            // onClick={() => deletePro(product.id)}
+            onClick={() => upatePro(product.id)}
             className=" 
 
 
@@ -79,6 +105,7 @@ border-2 border-gray-500  shadow-lg  pb-12 pl-6 pr-6"
 
               <div className="mt-4 font-bold">
                 <h1>{product.product_name}</h1>
+                <h1>{product?.product_price}</h1>
               </div>
             </div>
           </div>
