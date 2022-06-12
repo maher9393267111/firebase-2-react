@@ -17,16 +17,16 @@ import {
 } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import { async } from "@firebase/util";
-const CreateChildCategory = () => {
-  const [catinfo, setCatinfo] = useState("");
-  const [catimage, setCatimage] = useState("");
-  const [parentcat, setparentcat] = useState([]);
-  const [selectedcat, setselectedcat] = useState("");
+const CreateProduct = () => {
+  const [productinfo, setProductinfo] = useState("");
+  const [productimage, setproductimage] = useState("");
+  const [childtcategory, setchildcategory] = useState([]);
+  const [selectedcategory, setselectedcategory] = useState("");
 
   const [allimages, setAllimages] = useState([]);
 
   const handleChange = (e) => {
-    setCatinfo(e.target.value);
+    setProductinfo(e.target.value);
   };
 
   // ftch all parent categories
@@ -36,13 +36,13 @@ const CreateChildCategory = () => {
     //   setparentcat(doc.data());
     // });
 
-    const unsub = onSnapshot(collection(db, "categories"), (snapshot) => {
-      let employeesArr = snapshot.docs.map((doc) => ({
+    const unsub = onSnapshot(collection(db, "childcategories"), (snapshot) => {
+      let childcategories = snapshot.docs.map((doc) => ({
         ...doc.data(),
         id: doc.id,
       }));
-      setparentcat(employeesArr);
-      console.log(employeesArr);
+      setchildcategory(childcategories);
+      console.log(childcategories);
     });
   }, []);
 
@@ -60,16 +60,16 @@ const CreateChildCategory = () => {
 
     // get image url from storage and set into state
     const down = await getDownloadURL(testRef);
-    setCatimage(down);
+    setproductimage(down);
   };
 
   const handlesubmit = (e) => {
     e.preventDefault();
 
-    let data = addDoc(collection(db, "childcategories"), {
-      childcat_name: catinfo,
-      childcat_image: catimage,
-        parentcat_name: selectedcat,
+    let data = addDoc(collection(db, "products"), {
+      product_name: productinfo,
+      product_image: productimage,
+        childcategory_name: selectedcategory,
     });
   };
 
@@ -82,7 +82,7 @@ const CreateChildCategory = () => {
               className="block text-gray-700 text-sm font-bold mb-2"
               for="username"
             >
-              Child-Category name {selectedcat}
+              Child-Category name {selectedcategory}
             </label>
             <input
               onChange={handleChange}
@@ -99,13 +99,13 @@ const CreateChildCategory = () => {
             <div>
               <select
                 onChange={(e) => {
-                  setselectedcat(e.target.value);
+                  setselectedcategory(e.target.value);
                 }}
               >
-                {parentcat?.map((cat) => (
+                {childtcategory?.map((cat) => (
                   <option value={cat?.id} key={cat?.id}>
                     {" "}
-                    {cat?.catinfo}
+                    {cat?.childcat_name}
                   </option>
                 ))}
               </select>
@@ -134,7 +134,7 @@ const CreateChildCategory = () => {
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="button"
             >
-              Create childcategory
+              Create Product
             </button>
           </div>
         </form>
@@ -143,4 +143,4 @@ const CreateChildCategory = () => {
   );
 };
 
-export default CreateChildCategory;
+export default CreateProduct;

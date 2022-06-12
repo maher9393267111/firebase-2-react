@@ -1,6 +1,7 @@
 import React from 'react';
 import CreateCategory from '../components/createcategory';
 import Childcategory from '../components/childcategory';
+import CreateProduct from '../components/createProduct';
 import { db, app, storage } from "../firebase/index";
 import {
   getStorage,
@@ -37,6 +38,12 @@ const Home = () => {
 </div>
 
 
+
+<div>
+
+<CreateProduct/>
+
+</div>
 
 
 
