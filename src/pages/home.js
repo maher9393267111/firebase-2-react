@@ -16,34 +16,8 @@ const Home = () => {
         <div>
             <h1>Home Pages</h1>
 
-{/* ----create category---- */}
-
-<div>
-
-<CreateCategory />
-
-</div>
 
 
-
-
-{/* ----create child category---- */}
-
-
-<div>
-
-
-<Childcategory/>
-
-</div>
-
-
-
-<div>
-
-<CreateProduct/>
-
-</div>
 
 
 
