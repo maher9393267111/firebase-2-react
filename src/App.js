@@ -51,7 +51,7 @@ addDoc(colRef, {
  more: "300",
 });
   
-
+// map like this maher collection ---> docid  ----> doc fileds and maherinfo collection ---> docid ----> doc fields
    
 
 
