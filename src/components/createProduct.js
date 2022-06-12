@@ -16,7 +16,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { useState, useEffect } from "react";
-import { async } from "@firebase/util";
+
 const CreateProduct = () => {
   const [productinfo, setProductinfo] = useState("");
   const [productimage, setproductimage] = useState("");
