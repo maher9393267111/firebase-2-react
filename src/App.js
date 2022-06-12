@@ -9,7 +9,7 @@ import {
   uploadBytes,
   listAll,
 } from "firebase/storage";
-import {setDoc,addDoc,collection} from "firebase/firestore";
+import {setDoc,addDoc,collection,doc} from "firebase/firestore";
 
 function App() {
   const [allimages, setAllimages] = useState([]);
@@ -36,6 +36,23 @@ function App() {
       console.error("Error writing document: ", error);
     }
     );
+
+
+// CREATE COLLECTION INSIDE ONOTher collection in firebase
+  
+
+
+    
+    const docRef = doc(db, "mahercOLLECTION", 'GQd5jWXlqVebjtGu0yRI');
+const colRef = collection(docRef, "maherinfo")
+addDoc(colRef, {
+ price: "100",
+ and: "200",
+ more: "300",
+});
+  
+
+   
 
 
 
