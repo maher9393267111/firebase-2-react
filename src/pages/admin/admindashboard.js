@@ -3,6 +3,10 @@ import { useAuth } from '../../context/index'
 import {useState,useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 
+import AllProducts from '../../components/AllProducts';
+import CreateCategory from '../../components/createcategory';
+import CreateChildCategory from '../../components/childcategory';
+import CreateProduct from '../../components/createProduct';
 const Admindashboard = () => {
 
     const { userinfo } = useAuth();
@@ -25,6 +29,30 @@ if(userinfo.role==='user'){
     return (
         <div>
             <h1>Admin Dashboard</h1>
+
+
+<div>
+
+<CreateCategory/>
+
+<CreateChildCategory/>
+
+
+<div>
+
+    
+<CreateProduct/>
+</div>
+
+
+
+
+
+
+</div>
+
+
+
         </div>
     );
 }

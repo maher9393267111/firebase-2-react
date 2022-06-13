@@ -82,7 +82,7 @@ const CreateProduct = () => {
               className="block text-gray-700 text-sm font-bold mb-2"
               for="username"
             >
-              Child-Category name {selectedcategory}
+              Product name {selectedcategory}
             </label>
             <input
               onChange={handleChange}

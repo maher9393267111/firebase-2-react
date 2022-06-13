@@ -9,12 +9,16 @@ import {
   deleteDoc,
   updateDoc,
   onSnapshot,
+  arrayUnion
 } from "firebase/firestore";
+import { useAuth } from "../context";
 
 const AllProducts = () => {
   const [products, setProducts] = useState([]);
   const [productanme, setProductname] = useState("");
   const [productImage, setProductImage] = useState("");
+
+  const {userinfo} = useAuth();
 
   useEffect(() => {
     const unsub = onSnapshot(collection(db, "products"), (snapshot) => {
@@ -70,6 +74,29 @@ const upatePro = (key) => {
 
 
 
+// update userinfo cart
+
+const addtocart = (key) => {
+
+  return new Promise(async (resolve, reject) => {
+
+      try {
+          await updateDoc(doc(db, "users", userinfo.email), {
+            ...userinfo,
+            cart: arrayUnion(key)
+            //[...userinfo.cart, key],
+          })
+
+          console.log("add to cart success")
+          resolve()
+      } catch (error) {
+console.log(error)
+          reject()
+      }
+  }
+  )
+}
+
 
 
 
@@ -84,7 +111,7 @@ const upatePro = (key) => {
         {products.map((product) => (
           <div
             // onClick={() => deletePro(product.id)}
-            onClick={() => upatePro(product.id)}
+            // onClick={() => upatePro(product.id)}
             className=" 
 
 
@@ -98,8 +125,11 @@ border-2 border-gray-500  shadow-lg  pb-12 pl-6 pr-6"
                   alt=""
                 />
 
-                <div className=" absolute  text-2xl top-[-10px] right-[-9px]   font-bold rounded-full  ">
-                  x
+                <div className=" absolute  text-sm top-[-10px] right-[-9px]   font-bold rounded-full  ">
+                  <img
+                  onClick={() => addtocart(product.id)}
+                  className="w-8 h-8 rounded-full  object-cover"
+                  src="https://cdn2.iconfinder.com/data/icons/basic-flat-icon-set/128/bag-256.png" alt="" />
                 </div>
               </div>
 
