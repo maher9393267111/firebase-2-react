@@ -10,22 +10,34 @@ import {
   listAll,
 } from "firebase/storage";
 import { setDoc, addDoc, collection, doc } from "firebase/firestore";
-
+import { Route, Routes } from 'react-router-dom';
 import Home from "./pages/home";
+import Login from "./pages/login";
+import Register from "./pages/Register";
+import { useAuth } from './context/index';
 
 
 function App() {
   const [allimages, setAllimages] = useState([]);
   const [image, setImage] = useState(null);
   const [url, setUrl] = useState(null);
+  const { currentUser } = useAuth();
 
   
 
   return (
     <div className="container">
       
-    
-<Home />
+{currentUser?.email}fe
+
+    <Routes>
+          <Route path='/' element={<Home  />} />
+          
+          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
+       
+       
+        </Routes> 
 
 
       

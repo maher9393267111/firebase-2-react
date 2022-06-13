@@ -21,7 +21,7 @@ const Home = () => {
 
 <div>
 
-<AllProducts/>
+
 
 </div>
 
