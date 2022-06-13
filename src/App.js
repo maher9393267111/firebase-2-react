@@ -15,6 +15,7 @@ import Home from "./pages/home";
 import Login from "./pages/login";
 import Register from "./pages/Register";
 import { useAuth } from './context/index';
+import Admindashboard from "./pages/admin/admindashboard";
 
 
 function App() {
@@ -30,13 +31,16 @@ function App() {
       
 {currentUser?.email}
 
+<p>{userinfo.name}</p>
 <p>{userinfo.role}</p>
+
 
     <Routes>
           <Route path='/' element={<Home  />} />
           
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
+          <Route  path='/adminDash' element={<Admindashboard />} />
        
        
         </Routes> 

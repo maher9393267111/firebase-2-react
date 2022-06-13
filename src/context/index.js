@@ -86,7 +86,7 @@ import {
 
             async function fetchuser() {
               if (currentUser) {
-                const user = await getDoc(doc(db, "users", currentUser.email)).then(
+                 await getDoc(doc(db, "users", currentUser.email)).then(
                   (res) => {
                     console.log(res.data());
                     setUserinfo(res.data());
