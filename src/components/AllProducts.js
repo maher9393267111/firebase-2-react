@@ -87,35 +87,38 @@ const AllProducts = () => {
     if (exist.length === 0 || exist === []) {
       console.log("notexist length is 0", exist);
 
+product.quantity = 1;
+
+
       await updateDoc(userpath, {
         cart: [...cart, product],
       });
-    } else {
+    } 
+    
+    
+    // if exist.length is not 0 and product is exist in the cart  //
+    
+    else {
       console.log("exist length is not 0", exist);
 
       await updateDoc(userpath, {
-        cart: cart.filter((item) => item.id !== product.id),
+        cart: cart.filter((item) => item.id !== product.id),  // delete product from cart if exist
+
+        // onother option  increase the quantity of the product if exist
+
+cart: cart.map((item) => {
+  if (item.id === product.id) {
+    item.quantity += 1;
+  }
+  return item;
+}
+),
+
+
       });
     }
 
-    // const checkexist = cart !== undefined ? cart.find((product) => product?.id === product.id) : [];
-    //     console.log("checkexist", checkexist);
-
-    // if (checkexist === null  && cart == undefined) {
-
-    //   await updateDoc(userpath, {
-    //     cart: arrayUnion(product),
-    //   });
-
-    // }
-
-    // if (checkexist !== null  && cart == !undefined) {
-
-    //   await updateDoc(userpath, {
-    //     cart: arrayRemove(product),
-    //   });
-
-    // }
+  
   };
 
   return (
