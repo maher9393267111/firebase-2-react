@@ -20,6 +20,7 @@ const AllProducts = () => {
   const [productanme, setProductname] = useState("");
   const [productImage, setProductImage] = useState("");
   const [productbyid, setProductbyid] = useState("");
+  const [added, setAdded] = useState(false);
 
   const { userinfo } = useAuth();
 
@@ -68,48 +69,53 @@ const AllProducts = () => {
 
   // update userinfo cart
 
-  const addtocart = (key) => {
-    return new Promise(async (resolve, reject) => {
-      try {
+  const userpath = doc(db, "users", `${userinfo?.email}`);
 
-// finf oduct by key from products database
+  const [savedCart, setSavedCart] = useState([]);
 
-        const product = await getDoc(doc(db, "products", key)).then((doc) => {
-          doc.data();
-          console.log('productbyid------>',doc.data());
-        }
-        );
-        
+  const addtocart = async (product) => {
+    const cart = await (await getDoc(userpath)).data().cart;
+    console.log("cart", cart); // cart is an array itis working
 
+    const exist = cart.filter(
+      (item) =>
+        // indexof is used to check if the item is already in the cart
+        item.id === product.id
+    );
+    console.log("exist", exist);
 
+    if (exist.length === 0 || exist === []) {
+      console.log("notexist length is 0", exist);
 
-        await getDoc(doc(db, "users", userinfo.email)).then((res) => {
-          console.log(res.data().cart);
-          const cartdata = res.data().cart;
+      await updateDoc(userpath, {
+        cart: [...cart, product],
+      });
+    } else {
+      console.log("exist length is not 0", exist);
 
-          // check if exist in cart remove it
-          if (cartdata.includes(key)) {
-            console.log("exist");
-            const newcart = cartdata.filter((item) => item !== key);
-            updateDoc(doc(db, "users", userinfo.email), {
-              cart: newcart,
-            });
-          } else {
-            console.log("not exist");
+      await updateDoc(userpath, {
+        cart: cart.filter((item) => item.id !== product.id),
+      });
+    }
 
-            updateDoc(doc(db, "users", userinfo.email), {
-              ...userinfo,
-              cart: arrayUnion(key),
-            });
-          }
-        });
-        console.log("add to cart success");
-        resolve();
-      } catch (error) {
-        console.log(error);
-        reject();
-      }
-    });
+    // const checkexist = cart !== undefined ? cart.find((product) => product?.id === product.id) : [];
+    //     console.log("checkexist", checkexist);
+
+    // if (checkexist === null  && cart == undefined) {
+
+    //   await updateDoc(userpath, {
+    //     cart: arrayUnion(product),
+    //   });
+
+    // }
+
+    // if (checkexist !== null  && cart == !undefined) {
+
+    //   await updateDoc(userpath, {
+    //     cart: arrayRemove(product),
+    //   });
+
+    // }
   };
 
   return (
@@ -138,7 +144,7 @@ border-2 border-gray-500  shadow-lg  pb-12 pl-6 pr-6"
 
                 <div className=" absolute  text-sm top-[-10px] right-[-9px]   font-bold rounded-full  ">
                   <img
-                    onClick={() => addtocart(product.id)}
+                    onClick={() => addtocart(product)}
                     className="w-8 h-8 rounded-full  object-cover"
                     src="https://cdn2.iconfinder.com/data/icons/basic-flat-icon-set/128/bag-256.png"
                     alt=""
