@@ -9,7 +9,9 @@ import {
   deleteDoc,
   updateDoc,
   onSnapshot,
-  arrayUnion
+  arrayUnion,
+  arrayRemove,
+  getDoc
 } from "firebase/firestore";
 import { useAuth } from "../context";
 
@@ -81,12 +83,32 @@ const addtocart = (key) => {
   return new Promise(async (resolve, reject) => {
 
       try {
-          await updateDoc(doc(db, "users", userinfo.email), {
-            ...userinfo,
-            cart: arrayUnion(key)
-            //[...userinfo.cart, key],
-          })
 
+await getDoc(doc(db, "users", userinfo.email)).then((res) => {
+  
+  console.log(res.data().cart)
+  const cartdata = res.data().cart
+
+  // check if exist in cart remove it
+  if (cartdata.includes(key)) {
+    console.log("exist")
+    const newcart = cartdata.filter((item) => item !== key)
+    updateDoc(doc(db, "users", userinfo.email), {
+      cart: newcart,
+    })
+  } else {
+    console.log("not exist")
+
+
+         updateDoc(doc(db, "users", userinfo.email), {
+            ...userinfo,
+            cart: arrayUnion(key),
+            
+           
+          })
+        }
+      }
+    )
           console.log("add to cart success")
           resolve()
       } catch (error) {
