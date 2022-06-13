@@ -30,7 +30,7 @@ import {
   
 
     const [currentUser, setUser] = useState({});
-    const [userfromstore, setUserfromstore] = useState({});
+    const [userinfo, setUserinfo] = useState({});
 
     const signUp = async(email, password,name,image) => {
       createUserWithEmailAndPassword(auth, email, password);
@@ -84,17 +84,25 @@ import {
             console.log('user status changed: ', user.email,user.uid);
 
 
+            async function fetchuser() {
+              if (currentUser) {
+                const user = await getDoc(doc(db, "users", currentUser.email)).then(
+                  (res) => {
+                    console.log(res.data());
+                    setUserinfo(res.data());
+                  }
+                );
+              }
+            }
+        
+            fetchuser().catch(console.error);
 
 
 
-//  getDoc(doc(db, 'users',user.email )).then((doc) => {
-//     console.log('doc', doc);
-//     setUserfromstore(doc.data());
-//     console.log('userfromstore-------->', userfromstore);
-//     }
 
-    
-//     );
+
+
+
 
         }
 
@@ -105,10 +113,10 @@ import {
      
       });
       return unsubscribe;
-    }, []);
+    }, [currentUser]);
   
     const value = {
-       signUp, signIn, logout, currentUser
+       signUp, signIn, logout, currentUser, userinfo,
     };
     return <authContext.Provider {...{ value }}>{children}</authContext.Provider>;
   };

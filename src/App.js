@@ -21,14 +21,16 @@ function App() {
   const [allimages, setAllimages] = useState([]);
   const [image, setImage] = useState(null);
   const [url, setUrl] = useState(null);
-  const { currentUser } = useAuth();
+  const { currentUser,userinfo } = useAuth();
 
   
 
   return (
     <div className="container">
       
-{currentUser?.email}fe
+{currentUser?.email}
+
+<p>{userinfo.role}</p>
 
     <Routes>
           <Route path='/' element={<Home  />} />
