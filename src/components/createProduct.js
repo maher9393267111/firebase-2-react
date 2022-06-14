@@ -16,7 +16,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { useState, useEffect } from "react";
-import { async } from "@firebase/util";
+
 const CreateProduct = () => {
   const [productinfo, setProductinfo] = useState("");
   const [productimage, setproductimage] = useState("");
@@ -82,7 +82,7 @@ const CreateProduct = () => {
               className="block text-gray-700 text-sm font-bold mb-2"
               for="username"
             >
-              Child-Category name {selectedcategory}
+              Product name {selectedcategory}
             </label>
             <input
               onChange={handleChange}
